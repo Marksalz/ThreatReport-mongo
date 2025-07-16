@@ -1,15 +1,19 @@
 import client, { connectToMongo } from "./lib/db.js";
-import { reportsDal } from "./DAL/reportsDal.js";
+import express from 'express';
+import router from "./routes.js";
 
+const app = express();
+app.use(express.json());
+app.use(router);
 
-await connectToMongo();
+const PORT = process.env.PORT || 3000;
 
-
-// await reportsDal.newReport({
-//     fieldCode: "A15-B",
-//     location: "Downtown Metro District",
-//     threatLevel: 3,
-//     description: "Suspicious vehicle activity near government building, plates obscured",
-//     timestamp: new Date(),
-//     confirmed: false
-// });
+try {
+    await connectToMongo();
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+} catch (err) {
+    console.error("Failed to connect to DB:", err);
+    process.exit(1);
+}
