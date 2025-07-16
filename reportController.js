@@ -1,9 +1,13 @@
-import * as reportDAL from './reportDAL.js';
+import * as reportDAL from './DAL/reportsDal.js';
 
 // Create a new report
 export const createReport = async (req, res) => {
     try {
-        const report = await reportDAL.createReport(req.body);
+        const reportData = { ...req.body };
+        if (reportData.timestamp) {
+            reportData.timestamp = new Date(reportData.timestamp);
+        }
+        const report = await reportDAL.createReport(reportData);
         res.status(201).json(report);
     } catch (err) {
         res.status(500).json({ error: err.message });
