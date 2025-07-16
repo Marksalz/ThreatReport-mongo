@@ -1,8 +1,19 @@
 import client, { connectToMongo } from "./lib/db.js";
-import { reportsDal } from "./DAL/reportsDal.js";
-
+import express from 'express'; // corrected import
+import router from "./routers.js";
 
 await connectToMongo();
+
+const server = express();
+
+server.use(express.json());
+server.use(router);
+
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
 
 
 // await reportsDal.newReport({
