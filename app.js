@@ -1,6 +1,6 @@
 import client, { connectToMongo } from "./lib/db.js";
 import express from 'express'; // corrected import
-import router from "./routers.js";
+import router from "./routes.js";
 
 await connectToMongo();
 
